@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Rating</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('mental.webp') center/cover no-repeat;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        #rating-container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #rating-input {
+            width: 40px;
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        #submit-button {
+            margin-top: 10px;
+            padding: 10px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        #output-container {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .redirect-button {
+            margin-top: 10px;
+            padding: 10px;
+            margin-right: 2px;
+            margin-left: 2px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            
+            border-radius: 5px;
+            font-size: 16px;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+<div id="rating-container">
+    <label for="rating-input">Rate your mood (1-10): </label>
+    <input type="number" id="rating-input" min="1" max="10">
+    <button id="submit-button" onclick="submitRating()">Submit</button>
+    <div id="output-container"></div>
+</div>
+
+<script>
+    function submitRating() {
+        const ratingInput = document.getElementById('rating-input').value;
+        const outputContainer = document.getElementById('output-container');
+
+        if (ratingInput >= 2 && ratingInput <= 4) {
+            outputContainer.textContent = 'Stage: Feeling Depressed 😢';
+        } else if (ratingInput >= 5 && ratingInput <= 7) {
+            outputContainer.textContent = 'Stage: Not Good 😐';
+        } else if (ratingInput >= 8 && ratingInput <= 10) {
+            outputContainer.textContent = 'Stage: Feeling Good 😊';
+        } else {
+            outputContainer.textContent = 'Invalid Rating';
+        }
+
+        showRedirectButtons();
+        
+    }
+
+    function showRedirectButtons() {
+        const outputContainer = document.getElementById('output-container');
+        const buttonContainer = document.createElement('div');
+        buttonContainer.classList.add('redirect-buttons');
+
+        if (outputContainer.textContent.includes('Feeling Depressed')) {
+            addButton(buttonContainer, ' Counseling', 'counseling.html');
+            addButton(buttonContainer, 'Self-Help', 'https://www.oprahdaily.com/life/health/g25939272/self-care-tips/');
+        } else if (outputContainer.textContent.includes('Not Good')) {
+            addButton(buttonContainer, ' Activities', 'https://www.tenethealth.com/healthy-living/corporate-content/15-ways-to-boost-your-mood');
+            addButton(buttonContainer, 'Relaxation', 'https://open.spotify.com/playlist/1r4hnyOWexSvylLokn2hUa?si=4fsieyMAQKme1idrG7qzsQ&utm_source=copy-link');
+        } else if (outputContainer.textContent.includes('Feeling Good')) {
+            addButton(buttonContainer, ' Happy Place', 'https://youtube.com/playlist?list=PLN5fmudwjejFKHN_5TP8QT1baTr5XM_MO&si=GO3fJzp5JhiaGJSN');
+            addButton(buttonContainer, ' Positive Quotes', 'https://parade.com/973277/jessicasager/inspirational-quotes/');
+        }
+
+        outputContainer.appendChild(buttonContainer);
+    }
+
+    function addButton(container, text, page) {
+        const button = document.createElement('button');
+        button.textContent = text;
+        button.classList.add('redirect-button');
+        button.onclick = function () {
+            window.location.href = page;
+        };
+
+        container.appendChild(button);
+    }
+</script>
+
+</body>
+</html>
